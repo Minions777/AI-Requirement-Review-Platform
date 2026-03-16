@@ -1,0 +1,13 @@
+{
+  "name": "需求评审 Workflow",
+  "description": "输入需求文档 + 历史向量检索结果，输出结构化评审报告",
+  "nodes": [
+    {"id": "input", "type": "start"},
+    {"id": "llm", "type": "llm", "model": "gpt-4o-mini"},
+    {"id": "output", "type": "end"}
+  ],
+  "edges": [
+    {"source": "input", "target": "llm"},
+    {"source": "llm", "target": "output"}
+  ]
+}
