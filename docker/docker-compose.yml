@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - FEISHU_ACCESS_TOKEN=${FEISHU_ACCESS_TOKEN}
+      - FEISHU_BOT_WEBHOOK=${FEISHU_BOT_WEBHOOK}
+      - DIFY_API_KEY=${DIFY_API_KEY}
+      - DIFY_URL=${DIFY_URL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MILVUS_URI=${MILVUS_URI}
+      - MILVUS_COLLECTION=${MILVUS_COLLECTION:-requirements}
+    depends_on:
+      - milvus
+
+  dify:
+    image: langgenius/dify
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_PASSWORD=postgres
+
+  milvus:
+    image: milvusdb/milvus:latest
