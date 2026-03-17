@@ -5,12 +5,14 @@ from backend.services.feishu_doc_service import get_doc_content
 from backend.services.report_service import build_review_report, send_review_report
 from backend.services.review_service import review_requirement
 
+# 飞书回调路由，无额外前缀，直接暴露 /feishu/webhook。
 router = APIRouter()
 
 
 @router.post("/feishu/webhook")
 async def feishu_event(req: Request) -> dict[str, str]:
     # 接收飞书机器人 webhook 推送，提取文档 ID。
+    # webhook 请求体通常为 JSON，这里直接解析。
     data = await req.json()
     doc_id = data.get("doc_id")
     if not doc_id:

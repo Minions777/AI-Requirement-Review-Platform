@@ -6,7 +6,9 @@ from backend.api.review_api import router as review_router
 # FastAPI 作为 Python 服务入口，分别挂载飞书回调与人工触发评审接口。
 app = FastAPI(title="AI Requirement Review")
 
+# 注册飞书事件回调接口。
 app.include_router(feishu_router)
+# 注册手工触发评审接口（便于联调/测试）。
 app.include_router(review_router)
 
 
