@@ -1,4 +1,5 @@
 def parse_doc(doc: dict) -> dict:
+    # 初始化结构化字段，便于后续评审流程统一消费。
     sections = {
         "background": "",
         "features": [],
@@ -7,6 +8,7 @@ def parse_doc(doc: dict) -> dict:
         "raw": doc,
     }
 
+    # 遍历飞书文档块并按关键词粗分类。
     blocks = doc.get("blocks", [])
     for block in blocks:
         text = block.get("text", "").strip()
@@ -22,6 +24,7 @@ def parse_doc(doc: dict) -> dict:
         if "流程" in text:
             sections["flows"].append(text)
 
+    # 提供简短摘要，作为向量检索的种子文本。
     sections["summary"] = (
         f"背景: {sections['background']}\n"
         f"功能数: {len(sections['features'])}, "
